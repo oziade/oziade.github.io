@@ -22,7 +22,6 @@ __PUT__ xebia
 {% highlight json %}
 {
   "mappings": {
-    "blog": {
       "properties": {
         "category": {
           "type": "text",
@@ -91,7 +90,6 @@ __PUT__ xebia
       "tokenizer": {},
       "char_filter": {}
     }
-  }
 }
 {% endhighlight %}
 ---
@@ -100,10 +98,10 @@ Pour indexer tous ces documents en une étape vous allez utiliser __curl__ :
 
  * Télécharger le dataset [xebiablog.data](data/xebiablog.data)
  * Exécuter une requête bulk indexing :  
-  `curl -XPUT http://{host:port}/xebia/blog/_bulk --data-binary @xebiablog.data -H 'Content-Type: application/json'`
+  `curl -XPUT http://{host:port}/xebia/_bulk --data-binary @xebiablog.data -H 'Content-Type: application/json'`
   
   __Vérifier que les 23 documents sont correctements indexés :__  
-  __GET__ xebia/blog/_count  
+  __GET__ xebia/_count  
   
 Le fichier __xebiablog.data__ contient l'ensemble des documents à indexer au format :   
 {"index" : {"_id":"2"}}  
@@ -112,7 +110,7 @@ Le fichier __xebiablog.data__ contient l'ensemble des documents à indexer au fo
 
   __3.3 En vous inspirant de l'exercice [2.5](#2.5), écrire une requête qui permet de remonter les articles dont <u>le contenu</u> parle de "kodo kojo"__
 <blockquote class = 'solution' markdown="1">
-__GET__ xebia/blog/_search
+__GET__ xebia/_search
 {% highlight json %}
 {
     "query": {
@@ -127,7 +125,7 @@ __GET__ xebia/blog/_search
   __3.4 La requête précédente permet de rechercher sur le contenu des articles. Cependant en effectuant une requête pour remonter les articles dont <u>le contenu</u> parle de "Recherche full Text", les résultats ne semblent pas être pertinents : En effet, les 2 premiers résultats remontés n'ont pas de rapport avec ces termes.  
 Utiliser l'highlighting afin de comprendre pourquoi ces résultats sont remontés.__
 <blockquote class = 'solution' markdown="1">
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}
 {
     "query": {
@@ -172,7 +170,6 @@ __PUT__ xebia
 {% highlight json %}
 {
   "mappings": {
-    "blog": {
       "properties": {
         "category": {
           "type": "text",
@@ -244,10 +241,9 @@ __PUT__ xebia
       "tokenizer": {},
       "char_filter": {}
     }
-  }
 }
 {% endhighlight %}
-__curl -XPUT "http://{host:port}/xebia/blog/_bulk" --data-binary @xebiablog.data -H 'Content-Type: application/json'__
+__curl -XPUT "http://{host:port}/xebia/_bulk" --data-binary @xebiablog.data -H 'Content-Type: application/json'__
 </blockquote>
 ---  
    
@@ -275,7 +271,6 @@ __PUT__ xebia
 {% highlight json %}
 {
   "mappings": {
-    "blog": {
       "properties": {
         "category": {
           "type": "text",
@@ -354,10 +349,9 @@ __PUT__ xebia
       "tokenizer": {},
       "char_filter": {}
     }
-  }
 }
 {% endhighlight %}
-__curl -XPUT "http://{host:port}/xebia/blog/_bulk" --data-binary @xebiablog.data -H 'Content-Type: application/json'__
+__curl -XPUT "http://{host:port}/xebia/_bulk" --data-binary @xebiablog.data -H 'Content-Type: application/json'__
 </blockquote>
 ---
 
@@ -395,7 +389,7 @@ __Syntaxe :__
 
 
 <blockquote class = 'solution' markdown="1">
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}
 {
   "query": {
@@ -433,7 +427,7 @@ GET xebia/blog/_search
 
 
 <blockquote class = 'solution' markdown="1">
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}
 {
   "query": {
@@ -476,7 +470,7 @@ __3.9 Suggestion :__
 ---  
   - Effectuer une requête de type suggest   
 __Syntaxe :__
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}
 {
     "suggest": {
@@ -501,7 +495,6 @@ PUT xebia
 {% highlight json %}   
 {
   "mappings": {
-    "blog": {
       "properties": {
         "category": {
           "type": "text",
@@ -583,12 +576,11 @@ PUT xebia
       "tokenizer": {},
       "char_filter": {}
     }
-  }
 }
 {% endhighlight %}
-curl -XPUT http://localhost:9200/xebia/blog/_bulk --data-binary @xebiablogWithSuggest.data -H 'Content-Type: application/json'
+curl -XPUT http://localhost:9200/xebia/_bulk --data-binary @xebiablogWithSuggest.data -H 'Content-Type: application/json'
 
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}   
 {
     "suggest": {
@@ -609,7 +601,7 @@ __3.10 Suggestion fuzzy:__
    Modifiez la requête de suggestion afin de pouvoir remonter les suggestions liées à Docker si l'on saisie "Doker".  
    Pour cela, ajoutez le paramètre `"fuzzy":{}` à la requête au même niveau que **field**.
 <blockquote class = 'solution' markdown="1">
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}   
 {
     "suggest": {
@@ -630,7 +622,7 @@ __3.11 Agrégation par categories:<a name="3.11"></a>__
   Pour cela utilisez une aggrégations de type __terms__.
 
   __Syntaxe :__  
-  GET xebia/blog/_search
+  GET xebia/_search
   {% highlight json %}      
   { "size": 0, 
     "aggs": {
@@ -649,7 +641,7 @@ __Attention__ : On doit remonter le texte contenu dans le champ __category__ san
 L'attribut __size__ est à 0 car on ne tient pas ici à remonter les documents mais  uniquement le résultat de l'aggrégation
   
 <blockquote class = 'solution' markdown="1">
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}
 { "size": 0, 
   "aggs": {
@@ -668,7 +660,7 @@ __3.12 Agrégation auteurs par catégories:<a name="3.12"></a>__
 Nous voulons maintenant remonter les différents auteurs par catégories. Modifier la requête précédente pour ajouter une sous agrégation à l'agrégation par catégories:   
 
   __Syntaxe pour ajouter une sous-agrégation:__  
-  GET xebia/blog/_search
+  GET xebia/_search
   {% highlight json %}      
 {
   "size": 0,
@@ -695,7 +687,7 @@ __Attention__ : Même problème que l'aggrégation précédente : une aggrégati
   
 <blockquote class = 'solution' markdown="1">
 
-GET xebia/blog/_search
+GET xebia/_search
 {% highlight json %}   
 {
   "size": 0,
