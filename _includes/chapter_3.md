@@ -170,78 +170,78 @@ __DELETE__ xebia
 __PUT__ xebia
 {% highlight json %}
 {
-	"mappings": {
-		"properties": {
-			"category": {
-				"type": "text",
-				"fields": {
-					"keyword": {
-						"type": "keyword",
-						"ignore_above": 256
-					}
-				}
-			},
-			"content": {
-				"type": "text",
-				"analyzer": "my_analyzer",
-				"fields": {
-					"keyword": {
-						"type": "keyword",
-						"ignore_above": 256
-					}
-				}
-			},
-			"creator": {
-				"type": "text",
-				"fields": {
-					"keyword": {
-						"type": "keyword",
-						"ignore_above": 256
-					}
-				}
-			},
-			"description": {
-				"type": "text",
-				"fields": {
-					"keyword": {
-						"type": "keyword",
-						"ignore_above": 256
-					}
-				}
-			},
-			"pubDate": {
-				"type": "date"
-			},
-			"title": {
-				"type": "text",
-				"fields": {
-					"keyword": {
-						"type": "keyword",
-						"ignore_above": 256
-					}
-				}
-			}
-		}
-	},
-	"settings": {
-		"analysis": {
-			"analyzer": {
-				"my_analyzer": {
-					"type": "custom",
-					"tokenizer": "standard",
-					"filter": [
-						"lowercase"
-					],
-					"char_filter": [
-						"html_strip"
-					]
-				}
-			},
-			"filter": {},
-			"tokenizer": {},
-			"char_filter": {}
-		}
-	}
+    "mappings": {
+        "properties": {
+            "category": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "content": {
+                "type": "text",
+                "analyzer": "my_analyzer",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "creator": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "description": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "pubDate": {
+                "type": "date"
+            },
+            "title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            }
+        }
+    },
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase"
+                    ],
+                    "char_filter": [
+                        "html_strip"
+                    ]
+                }
+            },
+            "filter": {},
+            "tokenizer": {},
+            "char_filter": {}
+        }
+    }
 }
 {% endhighlight %}
 __curl -XPUT "http://{host:port}/xebia/_bulk" --data-binary @xebiablog.data -H 'Content-Type: application/json'__
