@@ -122,7 +122,7 @@ __GET__ xebia/_search
 {% endhighlight %}
 </blockquote>
 ---
-  __3.4 La requête précédente permet de rechercher sur le contenu des articles. Cependant en effectuant une requête pour remonter les articles dont <u>le contenu</u> parle de "Recherche full Text", les résultats ne semblent pas être pertinents : En effet, les 2 premiers résultats remontés n'ont pas de rapport avec ces termes.  
+  __3.4 La requête précédente permet de rechercher sur le contenu des articles. Cependant en effectuant une requête différente, pour remonter les articles dont <u>le contenu</u> parle de "Recherche full Text" par exemple, les résultats ne semblent pas être pertinents : En effet, les 2 premiers résultats remontés n'ont pas de rapport avec ces termes.  
 Utiliser l'highlighting afin de comprendre pourquoi ces résultats sont remontés.__
 <blockquote class = 'solution' markdown="1">
 GET xebia/_search
