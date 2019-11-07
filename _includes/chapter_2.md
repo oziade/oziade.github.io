@@ -1,8 +1,7 @@
-### 2. Découverte de l'api
+### 2. Découverte de l'API
 
 
-   __2.1 Premier document indexé :__    
-Requête :    
+   __2.1 Premier document indexé__    
 __POST__ programmer/1
 {% highlight json %}
 {
@@ -19,11 +18,10 @@ __POST__ programmer/1
     
 ---  
            
-   __2.2 Retrouver le document par son id :__  
-Requête :  
+   __2.2 Retrouver le document par son id__
 __GET__ programmer/1  
     
-  __2.3 Indexer d'autres documents (Avec les id 2 et 3):__  
+  __2.3 Indexer d'autres documents (Avec les id 2 et 3)__  
 {% highlight json %}
 {
     "name": "Gosling",
@@ -40,10 +38,10 @@ __GET__ programmer/1
 }
 {% endhighlight %}
 ---
-  __2.4 Recherche sans critère :__  
+  __2.4 Recherche sans critère__  
 __GET__ programmer/_search
 
-  __2.5 Recherche full text <a name="2.5"></a>:__  
+  __2.5 Recherche full text <a name="2.5"></a>__  
 __GET__ programmer/_search
 {% highlight json %}
 {
@@ -55,7 +53,7 @@ __GET__ programmer/_search
 }
 {% endhighlight %}
 ---
-  __2.6 Recherche full text avec highlighting (mise en surbrillance du terme qui "match" le texte de recherche) :__  
+  __2.6 Recherche full text avec highlighting (mise en surbrillance du terme qui "match" le texte de recherche)__  
 __GET__ programmer/_search
 {% highlight json %}
 {
@@ -72,13 +70,13 @@ __GET__ programmer/_search
 }
 {% endhighlight %}
 ---    
-  __2.7 Voir le mapping :__  
+  __2.7 Voir le mapping__  
 __GET__ programmer/_mapping
   
-  __2.8 Supprimer un document :__  
+  __2.8 Supprimer un document__  
 __DELETE__ programmer/{id}
       
-  __2.9 Supprimer l'index :__  
+  __2.9 Supprimer l'index__  
 __DELETE__ programmer
 
 ---
