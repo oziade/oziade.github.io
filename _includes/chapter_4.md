@@ -79,7 +79,7 @@ Pour indexer tous ces documents en une étape vous allez utiliser curl :
  * Télécharger le dataset [apartment.data](data/apartment.data)
  * Exécuter une requête bulk indexing :  
  
- `curl -XPUT http://{host:port}/x-immobilier/_bulk --data-binary @apartment.data -H 'Content-Type: application/json'`
+`curl -XPUT http://{host:port}/x-immobilier/_bulk --data-binary @apartment.data -H 'Content-Type: application/json'`
   
  __Vérifier que les 987 documents sont correctements indexés :__  
  __GET__ x-immobilier/_count
