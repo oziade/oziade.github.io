@@ -15,7 +15,7 @@ article avec les champs suivants :
 ---
 
   __3.1 Création de l'index__  
-Créer l'index pour recevoir les documents avec le mapping ci-dessous. Ce mapping est équivalent au mapping par défaut généré par Elasticsearch mais sera plus facilement modifiable par la suite.  
+Créer l'index pour recevoir les documents avec le mapping ci-dessous. Ce mapping est équivalent au mapping par défaut généré par `Elasticsearch mais sera plus facilement modifiable par la suite.  
 Pour créer l'index 'xebia' avec ce mapping :  
     
 __PUT__ xebia
@@ -97,7 +97,8 @@ __PUT__ xebia
 Pour indexer tous ces documents en une étape vous allez utiliser __curl__ :  
 
  * Télécharger le dataset [xebiablog.data](data/xebiablog.data)
- * Exécuter une requête bulk indexing :  
+ * Exécuter une requête bulk indexing : 
+  
   `curl -XPUT http://{host:port}/xebia/_bulk --data-binary @xebiablog.data -H 'Content-Type: application/json'`
   
   __Vérifier que les 23 documents sont correctements indexés :__  
@@ -122,9 +123,13 @@ __GET__ xebia/_search
 {% endhighlight %}
 </blockquote>
 ---
-  __3.4 La requête précédente permet de rechercher sur le contenu des articles.  
-  Cependant en effectuant une requête différente, pour remonter les articles dont <u>le contenu</u> parle de "Recherche full Text" par exemple, les résultats ne semblent pas être pertinents : En effet, les 2 premiers résultats remontés n'ont pas de rapport avec ces termes.  
-Utiliser l'highlighting afin de comprendre pourquoi ces résultats sont remontés.__
+
+  __3.4 Utiliser l'highlighting afin de comprendre pourquoi ces résultats sont remontés__
+  
+La requête précédente permet de rechercher sur le contenu des articles.  
+Cependant en effectuant une requête différente, pour remonter les articles dont <u>le contenu</u> parle de "Recherche full Text" par exemple, les résultats ne semblent pas être pertinents : En effet, les 2 premiers résultats remontés n'ont pas de rapport avec ces termes.
+
+Pour savoir pourquoi un document est remonté par `Elasticsearch`, utilisez l'highlighting qui permet de surligner les mots qui ont matché avec la requête.
 <blockquote class = 'solution' markdown="1">
 GET xebia/_search
 {% highlight json %}
@@ -143,8 +148,10 @@ GET xebia/_search
 Conclusion : Les caractères html font matcher les termes "full" et "text" à tort.
 </blockquote>
 ---
-  __3.5 Pour résoudre le problème précédent, changer l'analyzer du champ 'content' afin de supprimer les caractères html :__  
-Pour cela modifier le mapping afin d'utiliser le char_filter __html_strip__ dans le 'custom analyzer' __my_analyzer__ et déclarer le champ __'content'__ comme utilisant cet analyzer.  
+
+  __3.5 Pour résoudre le problème précédent, changer l'analyzer du champ 'content' afin de supprimer les caractères html__  
+Pour cela modifier le mapping afin d'utiliser le char_filter __html_strip__ dans le 'custom analyzer' __my_analyzer__ et déclarer le champ __content__ comme utilisant cet analyzer.  
+
 __Syntaxe du mapping avec analyzer :__ 
 {% highlight json %}
 {
@@ -157,13 +164,13 @@ __Syntaxe du mapping avec analyzer :__
 
 ---
 
-  * pour modifier le mapping vous devez : 
-    * Supprimer l'index
-    * Re-créér l'index avec le nouveau mapping    
-    * Re-indexer tous les documents (avec le curl) 
+ Pour modifier le mapping vous devez : 
+ * Supprimer l'index
+ * Re-créér l'index avec le nouveau mapping    
+ * Re-indexer tous les documents (avec curl) 
 
 
-Relancer la requête sur le texte "Recherche full Text" afin de vérifier qu'il y a moins de résultats mais qu'ils sont plus pertinents !
+Relancer la requête sur le texte "Recherche full Text" afin de vérifier qu'il y a moins de résultats, mais qu'ils sont plus pertinents !
 
 <blockquote class = 'solution' markdown="1">
 __DELETE__ xebia  
@@ -249,7 +256,7 @@ __curl -XPUT "http://{host:port}/xebia/_bulk" --data-binary @xebiablog.data -H '
 ---  
    
   __3.6 L'entreprise Typesafe a changé de nom pour Lightbend. Problème, les recherches sur "lightbend" ne remontent que 2 résultats. Modifier le mapping afin que toutes les recherches sur un des noms remontent les 8 résultats associés aux 2 noms d'entreprise.__   
-  Pour cela declarez un _filter_ de type synonym dans la partie `"filter": {},`du mapping et utilisez le dans l'analyzer my_analyzer 
+  Pour cela, declarez un _filter_ de type synonym dans la partie `"filter": {},`du mapping et utilisez le dans l'analyzer **my_analyzer**. 
 
 __Syntaxe :__   
 {% highlight json %}
@@ -356,11 +363,12 @@ __curl -XPUT "http://{host:port}/xebia/_bulk" --data-binary @xebiablog.data -H '
 </blockquote>
 ---
 
-  __3.7 Filtrage des posts trop anciens :__   
+  __3.7 Filtrage des posts trop anciens__   
   Les recherches peuvent remonter des résultats de 2011. En recherchant "sponsor", on remonte un blog post intitulé __"Xebia sponsor platinium de Devoxx France !"__ trop ancien.  
   Utilisez la recherche full text conjointement avec un filtre pour ne pas remonter les documents plus anciens de 6 ans.
   La recherche sur "sponsor" doit remonter uniquement un blog post __"Xebia sponsor Gold de Scala.io 2013"__.  
-Pour cela utilisez une **bool** query  et un **range** filter  
+Pour cela utilisez une **bool** query  et un **range** filter.
+
 __Syntaxe :__   
 {% highlight json %}
 {
@@ -417,7 +425,7 @@ GET xebia/_search
 </blockquote>
 ---
 
-  __3.8 Requête sur plusieurs champs :__   
+  __3.8 Requête sur plusieurs champs__   
   En gardant la requête précédente mais sur le texte "javascript", les résultats ne sont pas assez ciblés sur le sujet. En effet, on remonte un blog très général de la revue de presse au lieu d'articles dédiés au javascript.  
   Afin de rendre le résultat plus pertinent modifier la requête précédente pour remplacer la requête de type **match** par une requête de type **multi_match** 
   afin de pouvoir exécuter la même requête conjointement sur le champ "content" et le champ "title". Cette requête **multi_match** doit être de type **most_fields** pour combiner le score des champs qui match.  
@@ -456,10 +464,10 @@ GET xebia/_search
 
 </blockquote>
 ---
-__3.9 Suggestion :__   
-  Nous souhaitons être capable de faire de la suggestion sur le titre des posts dès la première lettre saisie. Pour cela, vous allez utiliser l'api __Completion suggester :__    
+__3.9 Suggestion__   
+  Nous souhaitons être capable de faire de la suggestion sur le titre des posts dès la première lettre saisie. Pour cela, vous allez utiliser l'API __Completion suggester :__    
   
-  -  Ajoutez un champ "suggest" au mapping, de type __completion__ . Ce champ va contenir le texte pour la suggestion mais sera indexé dans une structure optimisée pour faire de la recherche rapide sur du texte.  
+  - Ajoutez un champ "suggest" au mapping, de type __completion__ . Ce champ va contenir le texte pour la suggestion mais sera indexé dans une structure optimisée pour faire de la recherche rapide sur du texte.  
   - Utilisez le fichier [xebiablogWithSuggest.data](data/xebiablogWithSuggest.data) pour l'indexation. Ce fichier contient les mêmes documents mais avec le champ suggest au format suivant :   
 {% highlight json %}
   {
@@ -471,7 +479,7 @@ __3.9 Suggestion :__
 ---  
   - Effectuer une requête de type suggest   
 __Syntaxe :__
-GET xebia/_search
+__GET__ xebia/_search
 {% highlight json %}
 {
     "suggest": {
@@ -597,7 +605,7 @@ GET xebia/_search
 {% endhighlight %}
 </blockquote>
 ---
-__3.10 Suggestion fuzzy:__   
+__3.10 Suggestion fuzzy__   
   La requête précédente fonctionne bien pour Bernard Pivot.  
   Mais elle ne remonte pas de résultat si la personne qui effectue la recherche se trompe dans la saisie du texte.   
    Modifiez la requête de suggestion afin de pouvoir remonter les suggestions liées à Docker si l'on saisie "Doker".  
@@ -619,12 +627,12 @@ GET xebia/_search
 {% endhighlight %}
 </blockquote>
 ---
-__3.11 Agrégation par categories:<a name="3.11"></a>__   
+__3.11 Agrégation par categories<a name="3.11"></a>__   
   Nous souhaitons maintenant ramener toutes les catégories possibles pour un blog.  
   Pour cela utilisez une aggrégations de type __terms__.
 
   __Syntaxe :__  
-  GET xebia/_search
+  __GET__ xebia/_search
   {% highlight json %}      
   { "size": 0, 
     "aggs": {
@@ -640,6 +648,7 @@ __3.11 Agrégation par categories:<a name="3.11"></a>__
 ---     
 
 __Attention__ : On doit remonter le texte contenu dans le champ __category__ sans analyse. Depuis Elasticsearch 5, les champs textes sont indexés par défaut avec analyse (**text**) et sans analyse (**keyword**). Pour effectuer une requête sur le champ sans analyse, elle doit porter sur le champ `<nom_du_champ>.keyword`.
+
 L'attribut __size__ est à 0 car on ne tient pas ici à remonter les documents mais  uniquement le résultat de l'aggrégation
   
 <blockquote class = 'solution' markdown="1">
@@ -658,11 +667,11 @@ GET xebia/_search
 {% endhighlight %}
 </blockquote>
 ---   
-__3.12 Agrégation auteurs par catégories:<a name="3.12"></a>__   
+__3.12 Agrégation auteurs par catégories<a name="3.12"></a>__   
 Nous voulons maintenant remonter les différents auteurs par catégories. Modifier la requête précédente pour ajouter une sous agrégation à l'agrégation par catégories:   
 
-  __Syntaxe pour ajouter une sous-agrégation:__  
-  GET xebia/_search
+  __Syntaxe pour ajouter une sous-agrégation :__  
+  __GET__ xebia/_search
   {% highlight json %}      
 {
   "size": 0,
