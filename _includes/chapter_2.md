@@ -4,7 +4,7 @@
    __2.1 Premier document indexé :__    
 Requête :    
 {% highlight json %}
-__POST__ programmer/person/1
+POST programmer/person/1
 {
     "name": "Lovelace",
     "firstname": "Ada",
