@@ -1,6 +1,7 @@
-### 4. Recherche appartement
+### 4. Recherche appartement ou maison
 
 L'agence X-immobilier vient de créer son site internet de recherche de biens immobiliers sur Paris.
+
 Vous disposez d'un jeu de données à indexer dans Elasticsearch contenant des appartements à vendre 
 avec les champs suivants : 
 
@@ -41,33 +42,31 @@ __PUT__ x-immobilier
 {% highlight json %}
 {
  "mappings": {
-   "apartment": {
-     "properties": {
-       "address": {
-         "properties": {
-           "city": {
-             "type": "keyword"
-           },
-           "postalCode": {
-             "type": "keyword"
-           },
-           "street": {
-             "type": "text"
-           }
+   "properties": {
+     "address": {
+       "properties": {
+         "city": {
+           "type": "keyword"
+         },
+         "postalCode": {
+           "type": "keyword"
+         },
+         "street": {
+           "type": "text"
          }
-       },
-       "location": {
-          "type": "geo_point"
-       },
-       "nbOfRoom": {
-         "type": "long"
-       },
-       "price": {
-         "type": "long"
-       },
-       "surface": {
-         "type": "long"
        }
+     },
+     "location": {
+        "type": "geo_point"
+     },
+     "nbOfRoom": {
+       "type": "long"
+     },
+     "price": {
+       "type": "long"
+     },
+     "surface": {
+       "type": "long"
      }
    }
  }
@@ -79,7 +78,8 @@ Pour indexer tous ces documents en une étape vous allez utiliser curl :
 
  * Télécharger le dataset [apartment.data](data/apartment.data)
  * Exécuter une requête bulk indexing :  
-  `curl -XPUT http://{host:port}/x-immobilier/apartment/_bulk --data-binary @apartment.data -H 'Content-Type: application/json'`
+ 
+ `curl -XPUT http://{host:port}/x-immobilier/_bulk --data-binary @apartment.data -H 'Content-Type: application/json'`
   
  __Vérifier que les 987 documents sont correctements indexés :__  
  __GET__ x-immobilier/_count
@@ -88,14 +88,14 @@ Pour indexer tous ces documents en une étape vous allez utiliser curl :
 __4.3 Bounding box query__    
 
 Pour les besoins du site, il faut être capable de rechercher les appartements se trouvant dans le __9e arrondissement__.  
-Le 9e arrondissement pour cette requête est représenté par un rectangle avec les caractéristiques suivantes :   
+Le 9e arrondissement, pour cette requête, est représenté par un rectangle avec les caractéristiques suivantes :   
  - Extrémité en haut à gauche à la position __"lat": 48.88202934722508, "lon": 2.3397765430833624__  
  - Extrémité en bas à droite à la position __"lat": 48.870738, "lon": 2.347842__      
     
 Ecrire une requête avec un __filtre__  __geo_bounding_box__ sur ce rectangle pour remonter les 21 appartements dans le 9e.
 <blockquote class = 'solution' markdown="1">
 
-GET x-immobilier/apartment/_search
+GET x-immobilier/_search
 {% highlight json %}   
 {
   "query": {
@@ -129,7 +129,7 @@ Remplacer le __geo_bounding_box__ filter de la requête précédente par un filt
 
 <blockquote class = 'solution' markdown="1">
 
-GET x-immobilier/apartment/_search
+GET x-immobilier/_search
 {% highlight json %}   
 {
   "query": {
@@ -153,12 +153,12 @@ GET x-immobilier/apartment/_search
 ---
 __4.5 Tri par rapport à la distance depuis un point__  
 La requête précédente permet aux utilisateurs de remonter les résultats attendus, cependant les utilisateurs souhaiteraient voir en priorité les appartements les plus proches.  
-Modifier la requête pour ajouter le tri par ___geo_distance__  
+Modifier la requête pour ajouter le tri par __geo_distance__  
 Vous devez avoir en premier l'appartement se trouvant __46 RUE DE TREVISE__
 
 <blockquote class = 'solution' markdown="1">
 
-GET x-immobilier/apartment/_search
+GET x-immobilier/_search
 {% highlight json %}   
 {
   "query": {
@@ -189,7 +189,7 @@ GET x-immobilier/apartment/_search
 {% endhighlight %}
 </blockquote>
 ---
-__4.6 Geo_distance aggrégation__  
+__4.6 Geo_distance aggregation__  
 Afin d'évaluer la quantité de bien se trouvant à proximité du métro cadet, nous aimerions avoir le compte pour les plages de distance suivantes :      
 - 0 à 100m  
 - 100 à 200m  
@@ -199,10 +199,10 @@ Afin d'évaluer la quantité de bien se trouvant à proximité du métro cadet, 
 - 500 à 1000m  
     
 Pour cela vous devez écrire une requête d'aggrégation de type geo_distance.  
-__Pour vous aider inspirer vous des précédentes requêtes d'agrégations.__     
+__Pour vous aider, inspirez vous des précédentes requêtes d'agrégations.__
 <blockquote class = 'solution' markdown="1">
 
-GET x-immobilier/apartment/_search
+GET x-immobilier/_search
 {% highlight json %}   
 {
   "size": 0,
