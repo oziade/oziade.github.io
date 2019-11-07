@@ -1,7 +1,7 @@
 ### 5. Analyse d'opérations bancaires
 
 Vous travaillez actuellement sur l'application de gestion des comptes bancaires de la banque X-Banque. 
-Les mouvements sont indexés dans Elasticsearch avec le format suivant  : 
+Les mouvements sont indexés dans `Elasticsearch` avec le format suivant  : 
 
 * __amount__ : Le montant de l'opération
 * __operationDate__ : Date/heure de l'opération
@@ -23,11 +23,12 @@ pouvoir extraire de l'information de ces opérations.
 
 ---
 __5.1 Indexer les documents__  
-Pour indexer tous ces documents en une étape vous allez utiliser curl :  
+Pour indexer tous ces documents en une étape, vous allez utiliser curl :  
 
  * Télécharger le dataset [operations.data](data/operations.data)
  * Exécuter une requête bulk indexing :  
-  `curl -XPUT http://{host:port}/bank-account/operation/_bulk --data-binary @operations.data -H 'Content-Type: application/json'`
+ 
+`curl -XPUT http://{host:port}/bank-account/_bulk --data-binary @operations.data -H 'Content-Type: application/json'`
   
  __Vérifier que les 124 documents sont correctements indexés :__  
  __GET__ bank-account/_count
@@ -40,7 +41,7 @@ de type **date_histogram**.
 
 <blockquote class = 'solution' markdown="1">
 
-GET bank-account/operation/_search
+GET bank-account/_search
 {% highlight json %}   
 {
   "size": 0,
@@ -63,7 +64,7 @@ la valeur "non analysée" du champ userId.
 
 <blockquote class = 'solution' markdown="1">
 
-GET bank-account/operation/_search
+GET bank-account/_search
 {% highlight json %}   
 {
   "size": 0,
@@ -94,7 +95,7 @@ Ajouter à l'agrégation précédente une **query** avec un filtre sur ce champ 
 
 <blockquote class = 'solution' markdown="1">
 
-GET bank-account/operation/_search
+GET bank-account/_search
 {% highlight json %}   
 {
   "size": 0,
@@ -133,7 +134,7 @@ de type **sum** afin de remonter la somme de tous les montants par mois et par c
 
 <blockquote class = 'solution' markdown="1">
 
-GET bank-account/operation/_search
+GET bank-account/_search
 {% highlight json %}   
 {
   "size": 0,
@@ -202,7 +203,7 @@ Pour cela ajouter à la dernière sous-agrégation une **pipeline agrégation** 
  
 <blockquote class = 'solution' markdown="1">
 
-GET bank-account/operation/_search
+GET bank-account/_search
 {% highlight json %}   
 {
   "size": 0,
