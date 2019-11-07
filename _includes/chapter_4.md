@@ -2,7 +2,7 @@
 
 L'agence X-immobilier vient de créer son site internet de recherche de biens immobiliers sur Paris.
 
-Vous disposez d'un jeu de données à indexer dans Elasticsearch contenant des appartements à vendre 
+Vous disposez d'un jeu de données à indexer dans `Elasticsearch` contenant des appartements à vendre 
 avec les champs suivants : 
 
 * __price__ : Le prix en euro
