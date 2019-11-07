@@ -19,7 +19,6 @@ Deux possibilités :
     ou 
     
     `{kibana_directory}/bin/kibana.bat` (windows).  
-    - Vous pouvez ensuite accéder à Elasticsearch sur [http://localhost:9200](http://localhost:9200/) et Kibana sur [http://localhost:5601](http://localhost:5601).
 
 * Via Docker (pour les amateurs de conteneurs)  :
     - [Suivre ce guide d'installation](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
