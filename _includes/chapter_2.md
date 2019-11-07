@@ -3,7 +3,7 @@
 
    __2.1 Premier document indexé :__    
 Requête :    
-__POST__ programmer/person/1
+__POST__ programmer/1
 {% highlight json %}
 {
     "name": "Lovelace",
@@ -14,15 +14,14 @@ __POST__ programmer/person/1
   
 ---    
      
- - **programmer** est le nom de l'index  
- - **person** est le type de document  
+ - **programmer** est le nom de l'index   
  - **1** est l'id  
     
 ---  
            
    __2.2 Retrouver le document par son id :__  
 Requête :  
-__GET__ programmer/person/1  
+__GET__ programmer/1  
     
   __2.3 Indexer d'autres documents (Avec les id 2 et 3):__  
 {% highlight json %}
@@ -42,10 +41,10 @@ __GET__ programmer/person/1
 {% endhighlight %}
 ---
   __2.4 Recherche sans critère :__  
-__GET__ programmer/person/_search
+__GET__ programmer/_search
 
   __2.5 Recherche full text <a name="2.5"></a>:__  
-__GET__ programmer/person/_search
+__GET__ programmer/_search
 {% highlight json %}
 {
     "query": {
@@ -57,7 +56,7 @@ __GET__ programmer/person/_search
 {% endhighlight %}
 ---
   __2.6 Recherche full text avec highlighting (mise en surbrillance du terme qui "match" le texte de recherche) :__  
-__GET__ programmer/person/_search
+__GET__ programmer/_search
 {% highlight json %}
 {
     "query": {
@@ -74,10 +73,10 @@ __GET__ programmer/person/_search
 {% endhighlight %}
 ---    
   __2.7 Voir le mapping :__  
-__GET__ programmer/person/_mapping
+__GET__ programmer/_mapping
   
   __2.8 Supprimer un document :__  
-__DELETE__ programmer/person/{id}
+__DELETE__ programmer/{id}
       
   __2.9 Supprimer l'index :__  
 __DELETE__ programmer
