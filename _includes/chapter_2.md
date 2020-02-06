@@ -2,7 +2,7 @@
 
 
    __2.1 Premier document indexé__    
-__POST__ programmer/1
+__POST__ programmer/_create/1
 {% highlight json %}
 {
     "name": "Lovelace",
@@ -19,7 +19,7 @@ __POST__ programmer/1
 ---  
            
    __2.2 Retrouver le document par son id__
-__GET__ programmer/1  
+__GET__ programmer/_doc/1  
     
   __2.3 Indexer d'autres documents (Avec les id 2 et 3)__  
 {% highlight json %}
@@ -74,7 +74,7 @@ __GET__ programmer/_search
 __GET__ programmer/_mapping
   
   __2.8 Supprimer un document__  
-__DELETE__ programmer/{id}
+__DELETE__ programmer/_doc/{id}
       
   __2.9 Supprimer l'index__  
 __DELETE__ programmer
