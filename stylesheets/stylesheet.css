@@ -62,7 +62,6 @@ body {
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   -webkt-font-smoothing: antialiased;i
-  background-image: linear-gradient(#057ffa,#03002e);
   background: #03002e;
   background-color: #03002e;
 }
@@ -284,7 +283,7 @@ Full-Width Styles
 
 
 #header_wrap{
-  background-image: linear-gradient(#057ffa,#03002e);
+
 }
 
 #header_wrap .inner {
@@ -311,7 +310,6 @@ Full-Width Styles
 
 
 #main_content_wrap {
-  background-image: linear-gradient(#057ffa,#03002e);
   background-attachment: fixed;
   border-top: 1px solid #EDAF1F;
   border-bottom: 1px solid #111;
