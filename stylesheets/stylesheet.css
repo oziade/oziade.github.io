@@ -283,7 +283,7 @@ Full-Width Styles
 
 
 #header_wrap{
-
+  background-image: linear-gradient(#03002e,#03002e);
 }
 
 #header_wrap .inner {
